@@ -1,0 +1,41 @@
+ext {
+    //App settings
+    compileSdkV = 28
+    minSdkV = 19
+    targetSdkV = 28
+    codeV = 1
+    nameV = '1.0'
+
+    //Versions
+    supportV = '28.0.0'
+    constraintLayoutV = '1.1.3'
+    junitV = '4.12'
+    testRunnerV = '1.0.2'
+    testEspressoV = '3.0.2'
+    archLifecycleV = '1.1.1'
+
+    //Packages
+    supportPackage = 'com.android.support'
+    constraintLayoutPackage = 'com.android.support.constraint'
+    junitPackage = 'junit'
+    testPackage = 'com.android.support.test'
+    espressoPackage = 'com.android.support.test.espresso'
+    archLifecyclePackage = 'android.arch.lifecycle'
+
+    //App dependencies
+    supportDependencies = [
+            appCompat : buildDependency(supportPackage, 'appcompat-v7', supportV),
+            design : buildDependency(supportPackage, 'design', supportV),
+            constraintLayout : buildDependency(constraintLayoutPackage, 'constraint-layout', constraintLayoutV),
+    ]
+
+    testingDependencies = [
+            junit : buildDependency(junitPackage, 'junit', junitV),
+            testRunner : buildDependency(testPackage, 'runner', testRunnerV),
+            espresso : buildDependency(espressoPackage, 'espresso-core', testEspressoV),
+    ]
+}
+
+static String buildDependency(String pack, String dependency, String version) {
+    return "${pack}:${dependency}:$version"
+}
