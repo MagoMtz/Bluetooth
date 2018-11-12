@@ -1,5 +1,6 @@
 package com.mago.bluetooth.neardevices;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,16 +11,18 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mago.bluetooth.R;
+import com.mago.bluetooth.clouddevices.CloudDevicesActivity;
 import com.mago.bluetooth.databinding.ActivityNearDevicesBinding;
 import com.mago.bluetooth.db.entities.Device;
-import com.mago.bluetooth.neardevices.adapter.NearDevicesAdapter;
-import com.mago.bluetooth.neardevices.adapter.OnItemClickListener;
+import com.mago.bluetooth.adapter.DevicesAdapter;
+import com.mago.bluetooth.adapter.OnItemClickListener;
 
 import java.util.ArrayList;
 
 
 public class NearDevicesActivity extends AppCompatActivity implements OnItemClickListener {
     private ActivityNearDevicesBinding view;
+    private ArrayList<Device> deviceArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,34 +30,25 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
         view = DataBindingUtil.setContentView(this, R.layout.activity_near_devices);
         setSupportActionBar(view.toolbar);
 
-        ArrayList<Device> deviceArrayList = new ArrayList<>();
+        setupRecyclerView();
+        mockDevices();
+    }
+
+    private void mockDevices(){
         Device device = new Device();
-        device.setAddress("6C:96:CF:DF:51:F8");
-        device.setName("Jorge’s MacBook Pro");
-        device.setStrength(10);
+        device.setName("Jorge");
+        device.setStrength(50);
+        device.setAddress("6F:10:18:A2:8B:A2");
+
         deviceArrayList.add(device);
+    }
 
-        Device device1 = new Device();
-        device1.setStrength(30);
-        device1.setName("1");
-        deviceArrayList.add(device1);
-
-        Device device2 = new Device();
-        device2.setStrength(60);
-        device2.setName("2");
-        deviceArrayList.add(device2);
-
-        Device device3 = new Device();
-        device3.setName("3");
-        device3.setStrength(90);
-        deviceArrayList.add(device3);
-
-        NearDevicesAdapter adapter = new NearDevicesAdapter(deviceArrayList, this, this);
+    private void setupRecyclerView() {
+        deviceArrayList = new ArrayList<>();
+        DevicesAdapter adapter = new DevicesAdapter(deviceArrayList, this, this);
 
         view.contentNearDevices.nearDevicesList.setLayoutManager(new LinearLayoutManager(this));
         view.contentNearDevices.nearDevicesList.setAdapter(adapter);
-
-
     }
 
     @Override
@@ -70,6 +64,9 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
             case R.id.action_refresh_list:
                 Toast.makeText(this, "menu", Toast.LENGTH_SHORT).show();
                 return true;
+            case R.id.action_cloud_list:
+                navigateToCloudDevices();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -78,5 +75,9 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     @Override
     public void onItemClick(Device device) {
         Toast.makeText(this, "save", Toast.LENGTH_SHORT).show();
+    }
+
+    private void navigateToCloudDevices(){
+        startActivity(new Intent(this, CloudDevicesActivity.class));
     }
 }

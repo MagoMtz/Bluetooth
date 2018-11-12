@@ -1,10 +1,10 @@
-package com.mago.bluetooth.neardevices.adapter;
+package com.mago.bluetooth.adapter;
 
 import android.content.Context;
-import android.databinding.adapters.AdapterViewBindingAdapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.mago.bluetooth.R;
@@ -18,12 +18,12 @@ import java.util.ArrayList;
 /**
  * Created by jorgemartinez on 12/11/18.
  */
-public class NearDevicesAdapter extends RecyclerView.Adapter<NearDevicesAdapter.ViewHolder> {
+public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHolder> {
     private ArrayList<Device> devicesList;
     private OnItemClickListener onItemClickListener;
     private Context context;
 
-    public NearDevicesAdapter(ArrayList<Device> devicesList, OnItemClickListener onItemClickListener, Context context) {
+    public DevicesAdapter(ArrayList<Device> devicesList, OnItemClickListener onItemClickListener, Context context) {
         this.devicesList = devicesList;
         this.onItemClickListener = onItemClickListener;
         this.context = context;
@@ -44,12 +44,21 @@ public class NearDevicesAdapter extends RecyclerView.Adapter<NearDevicesAdapter.
         String deviceName = device.getName();
         String deviceAddress = device.getAddress();
         String deviceStrength = String.format(context.getString(R.string.activity_near_devices_adapter_strength), device.getStrength());
+        String deviceDate = device.getCreatedAt();
 
         viewHolder.viewBinding.tvDeviceName.setText(deviceName);
         viewHolder.viewBinding.tvDeviceAddress.setText(deviceAddress);
         viewHolder.viewBinding.tvIntensity.setText(deviceStrength);
         viewHolder.setOnItemClickListener(device, onItemClickListener);
         viewHolder.setIntensityIcon(device.getStrength());
+        if (deviceDate != null) {
+            viewHolder.viewBinding.tvDeviceDate.setText(deviceDate);
+            viewHolder.viewBinding.ivSaveDevice.setVisibility(View.GONE);
+            viewHolder.viewBinding.tvDeviceDate.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.viewBinding.tvDeviceDate.setVisibility(View.GONE);
+            viewHolder.viewBinding.ivSaveDevice.setVisibility(View.VISIBLE);
+        }
 
     }
 

@@ -1,4 +1,4 @@
-package com.mago.bluetooth.neardevices.adapter;
+package com.mago.bluetooth.adapter;
 
 import com.mago.bluetooth.db.entities.Device;
 

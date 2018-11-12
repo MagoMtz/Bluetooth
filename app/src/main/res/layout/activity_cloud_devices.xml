@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".neardevices.NearDevicesActivity">
+    tools:context=".clouddevices.CloudDevicesActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,9 +21,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include
-        android:id="@+id/content_near_devices"
-        layout="@layout/content_near_devices" />
+    <include android:id="@+id/content_cloud_devices"
+        layout="@layout/content_cloud_devices" />
 
     <ProgressBar
         android:id="@+id/progress_circular"

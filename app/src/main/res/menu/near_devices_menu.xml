@@ -7,5 +7,9 @@
         app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_popup_sync"
         />
+    <item android:id="@+id/action_cloud_list"
+        android:title="@string/activity.near_devices.menu.action_saved_devices"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_cloud_done"/>
 
 </menu>
