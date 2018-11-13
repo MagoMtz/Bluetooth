@@ -43,14 +43,14 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
 
         String deviceName = device.getName();
         String deviceAddress = device.getAddress();
-        String deviceStrength = String.format(context.getString(R.string.activity_near_devices_adapter_strength), device.getStrength());
+        String deviceStrength = String.format(context.getString(R.string.activity_near_devices_adapter_strength), device.getStrengthAsInt());
         String deviceDate = device.getCreatedAt();
 
         viewHolder.viewBinding.tvDeviceName.setText(deviceName);
         viewHolder.viewBinding.tvDeviceAddress.setText(deviceAddress);
         viewHolder.viewBinding.tvIntensity.setText(deviceStrength);
         viewHolder.setOnItemClickListener(device, onItemClickListener);
-        viewHolder.setIntensityIcon(device.getStrength());
+        viewHolder.setIntensityIcon(device.getStrengthAsInt());
         if (deviceDate != null) {
             viewHolder.viewBinding.tvDeviceDate.setText(deviceDate);
             viewHolder.viewBinding.ivSaveDevice.setVisibility(View.GONE);
@@ -80,16 +80,16 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
         }
 
         void setIntensityIcon(int strength) {
-            if ((strength >= 0) && (strength <= 25)) {
+            if ((strength <= 0) && (strength >= -25)) {
                 viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_poor);
             } else
-            if ((strength >= 26) && (strength <= 50)) {
+            if ((strength <= -26) && (strength >= -50)) {
                 viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_ok);
             } else
-            if ((strength >= 51) && (strength <= 75)) {
+            if ((strength <= -51) && (strength >= -75)) {
                 viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_great);
             } else
-            if ((strength >= 76) && (strength <= 100)){
+            if ((strength <= -76) && (strength >= -100)){
                 viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_perfect);
             }
         }

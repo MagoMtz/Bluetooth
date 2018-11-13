@@ -13,6 +13,11 @@ ext {
     testRunnerV = '1.0.2'
     testEspressoV = '3.0.2'
     archLifecycleV = '1.1.1'
+    gsonV = '2.8.5'
+    retrofitV = '2.4.0'
+    rxAndroidV = '2.1.0'
+    rxJavaV = '2.1.3'
+
 
     //Packages
     supportPackage = 'com.android.support'
@@ -21,12 +26,24 @@ ext {
     testPackage = 'com.android.support.test'
     espressoPackage = 'com.android.support.test.espresso'
     archLifecyclePackage = 'android.arch.lifecycle'
+    gsonPackage = 'com.google.code.gson'
+    retrofitPackage = 'com.squareup.retrofit2'
+    rxJavaPackage = 'io.reactivex.rxjava2'
 
     //App dependencies
     supportDependencies = [
             appCompat : buildDependency(supportPackage, 'appcompat-v7', supportV),
             design : buildDependency(supportPackage, 'design', supportV),
             constraintLayout : buildDependency(constraintLayoutPackage, 'constraint-layout', constraintLayoutV),
+    ]
+
+    modulesDependencies = [
+            gson : buildDependency(gsonPackage, 'gson', gsonV),
+            retrofit : buildDependency(retrofitPackage, 'retrofit', retrofitV),
+            retrofitGSONConverter : buildDependency(retrofitPackage, 'converter-gson', retrofitV),
+            retrofitrxjava : buildDependency(retrofitPackage, 'adapter-rxjava2', retrofitV),
+            rxAndroid : buildDependency(rxJavaPackage, 'rxandroid', rxAndroidV),
+            rxJava : buildDependency(rxJavaPackage, 'rxjava', rxJavaV)
     ]
 
     testingDependencies = [

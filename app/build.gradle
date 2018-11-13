@@ -33,6 +33,14 @@ dependencies {
     implementation supportDependencies.design
     implementation supportDependencies.constraintLayout
 
+    //modules dependencies
+    implementation modulesDependencies.gson
+    implementation modulesDependencies.retrofit
+    implementation modulesDependencies.retrofitGSONConverter
+    implementation modulesDependencies.rxJava
+    implementation modulesDependencies.rxAndroid
+    implementation modulesDependencies.retrofitrxjava
+
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     testImplementation testingDependencies.junit
     androidTestImplementation testingDependencies.testRunner

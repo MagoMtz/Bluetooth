@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.mago.bluetooth.R;
-import com.mago.bluetooth.clouddevices.CloudDevicesActivity;
+import com.mago.bluetooth.clouddevices.view.CloudDevicesActivity;
 import com.mago.bluetooth.databinding.ActivityNearDevicesBinding;
 import com.mago.bluetooth.db.entities.Device;
 import com.mago.bluetooth.adapter.DevicesAdapter;
@@ -37,7 +37,7 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     private void mockDevices(){
         Device device = new Device();
         device.setName("Jorge");
-        device.setStrength(50);
+        device.setStrength("-50db");
         device.setAddress("6F:10:18:A2:8B:A2");
 
         deviceArrayList.add(device);

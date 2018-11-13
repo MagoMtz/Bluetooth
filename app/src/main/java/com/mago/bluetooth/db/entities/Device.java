@@ -1,5 +1,8 @@
 package com.mago.bluetooth.db.entities;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
@@ -9,8 +12,13 @@ public class Device {
     private long id;
     private String name;
     private String address;
-    private int strength;
+    private String strength;
+    @SerializedName("created_at")
     private String createdAt;
+
+    public String toJSON() {
+        return new Gson().toJson(this);
+    }
 
     public long getId() {
         return id;
@@ -36,11 +44,16 @@ public class Device {
         this.address = address;
     }
 
-    public int getStrength() {
+    public String getStrength() {
         return strength;
     }
 
-    public void setStrength(int strength) {
+    public int getStrengthAsInt() {
+        String[] aux = strength.split("d");
+        return Integer.parseInt(aux[0]);
+    }
+
+    public void setStrength(String strength){
         this.strength = strength;
     }
 
@@ -51,4 +64,5 @@ public class Device {
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
+
 }
