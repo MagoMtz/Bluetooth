@@ -59,9 +59,9 @@ public class NearDevicesPresenterImpl implements NearDevicesPresenter, NearDevic
     }
 
     @Override
-    public void onSuccess(String deviceName) {
+    public void onSuccess(Device device, boolean didExists) {
         view.hideProgressBar();
-        view.showSavedSuccessfulMsg(deviceName);
+        view.showSavedSuccessfulMsg(device, didExists);
     }
 
 }

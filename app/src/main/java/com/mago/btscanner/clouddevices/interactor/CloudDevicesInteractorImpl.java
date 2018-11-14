@@ -33,8 +33,6 @@ public class CloudDevicesInteractorImpl implements CloudDevicesInteractor{
     @Override
     public void getCloudDevices(OnEventListener listener) {
         APIServiceRetrofit serviceRetrofit = RetrofitAPIUtils.getServiceRetrofit();
-
-
         serviceRetrofit.getDevices()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

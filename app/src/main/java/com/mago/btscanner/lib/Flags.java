@@ -6,6 +6,6 @@ package com.mago.btscanner.lib;
 public class Flags {
     public static abstract class IntentCodes {
         public static final int REQUEST_ENABLE_BT = 1;
-        public static final int REQUEST_ACCESS_COARSE_LOCATION= 2;
+        public static final int REQUEST_ACCESS_COARSE_LOCATION = 2;
     }
 }

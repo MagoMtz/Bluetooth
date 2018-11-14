@@ -13,6 +13,6 @@ public interface NearDevicesInteractor {
 
     interface OnEventListener {
         void onError(String errMsg);
-        void onSuccess(String deviceName);
+        void onSuccess(Device device, boolean didExists);
     }
 }

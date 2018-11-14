@@ -8,6 +8,7 @@
 
     <string name="activity.near_devices.saving_error">Error al guardar el dispositivo. %s</string>
     <string name="activity.near_devices.saved_successful">¡%s guardado exitosamente!</string>
+    <string name="activity.near_devices.device_already_saved">%s guardado el %s</string>
     <string name="activity.near_devices.menu.action_refresh_list">Refrescar dispositivos</string>
     <string name="activity.near_devices.menu.action_saved_devices">Ver dispositivos guardados</string>
     <string name="activity.near_devices.adapter.strength">%d dBm</string>

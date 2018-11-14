@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -138,6 +139,8 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
 
     @Override
     public void onItemClick(Device device) {
+        view.progressHorizontal.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(android.R.color.holo_orange_dark), PorterDuff.Mode.SRC_IN);
         presenter.cancelDiscovery();
         presenter.saveDevice(device);
     }
@@ -162,9 +165,15 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     }
 
     @Override
-    public void showSavedSuccessfulMsg(String deviceName) {
-        String msg = String.format(getString(R.string.activity_near_devices_saved_successful), deviceName);
-        Snackbar.make(view.getRoot(), msg, Snackbar.LENGTH_SHORT).show();
+    public void showSavedSuccessfulMsg(Device device, boolean didExists) {
+        String msg;
+        if (didExists) {
+            String[] date = device.getCreatedAt().split("T");
+            msg = String.format(getString(R.string.activity_near_devices_device_already_saved), device.getName(), date[0]);
+        } else {
+            msg = String.format(getString(R.string.activity_near_devices_saved_successful), device.getName());
+        }
+        Snackbar.make(view.getRoot(), msg, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -192,6 +201,8 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     }
 
     private void scanForNearDevices(){
+        view.progressHorizontal.getIndeterminateDrawable().setColorFilter(
+                getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
         deviceArrayList.clear();
         devicesAdapter.notifyDataSetChanged();
 
