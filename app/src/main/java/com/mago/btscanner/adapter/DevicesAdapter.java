@@ -48,8 +48,10 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
         viewHolder.viewBinding.tvDeviceName.setText(deviceName);
         viewHolder.viewBinding.tvDeviceAddress.setText(deviceAddress);
         viewHolder.viewBinding.tvIntensity.setText(deviceStrength);
+
         viewHolder.setOnItemClickListener(device, onItemClickListener);
         viewHolder.setIntensityIcon(device.getStrengthAsInt());
+
         if (onItemClickListener == null) {
             viewHolder.viewBinding.tvDeviceDate.setText(deviceDate);
             viewHolder.viewBinding.ivSaveDevice.setVisibility(View.GONE);

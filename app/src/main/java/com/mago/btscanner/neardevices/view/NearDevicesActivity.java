@@ -77,6 +77,20 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
         presenter.onDestroy();
     }
 
+    private void setupRecyclerView() {
+        deviceArrayList = new ArrayList<>();
+        devicesAdapter = new DevicesAdapter(deviceArrayList, this, this);
+
+        view.contentNearDevices.nearDevicesList.setLayoutManager(new LinearLayoutManager(this));
+        view.contentNearDevices.nearDevicesList.setAdapter(devicesAdapter);
+    }
+
+    private void initReceiver(){
+        receiver = new BTScannerBroadcastReceiver(this);
+        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+        registerReceiver(receiver, filter);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
@@ -97,25 +111,12 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
             case Flags.IntentCodes.REQUEST_ACCESS_COARSE_LOCATION:
                 if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     scanForNearDevices();
+
                 if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_DENIED)
                     showGrantPermissionMsg();
 
                 break;
         }
-    }
-
-    private void setupRecyclerView() {
-        deviceArrayList = new ArrayList<>();
-        devicesAdapter = new DevicesAdapter(deviceArrayList, this, this);
-
-        view.contentNearDevices.nearDevicesList.setLayoutManager(new LinearLayoutManager(this));
-        view.contentNearDevices.nearDevicesList.setAdapter(devicesAdapter);
-    }
-
-    private void initReceiver(){
-        receiver = new BTScannerBroadcastReceiver(this);
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        registerReceiver(receiver, filter);
     }
 
     @Override
@@ -147,10 +148,6 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
         presenter.saveDevice(device);
     }
 
-    private void navigateToCloudDevices(){
-        startActivity(new Intent(this, CloudDevicesActivity.class));
-    }
-
     @Override
     public void showProgressBar() {
         view.progressHorizontal.setVisibility(View.VISIBLE);
@@ -176,7 +173,7 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     @Override
     public void showSavingErrorMsg(String errMsg) {
         String serverError = String.format(getString(R.string.activity_near_devices_saving_error), errMsg);
-        Snackbar.make(view.getRoot(), serverError, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(view.getRoot(), serverError, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -189,6 +186,10 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     public void addDeviceToList(Device device) {
         deviceArrayList.add(device);
         devicesAdapter.notifyDataSetChanged();
+    }
+
+    private void navigateToCloudDevices(){
+        startActivity(new Intent(this, CloudDevicesActivity.class));
     }
 
     private void showEnableBTMsg(){

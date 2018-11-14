@@ -38,9 +38,7 @@ public class CloudDevicesInteractorImpl implements CloudDevicesInteractor{
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Device>>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
+                    public void onSubscribe(Disposable d) { }
 
                     @Override
                     public void onNext(List<Device> devices) {

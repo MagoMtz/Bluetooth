@@ -17,7 +17,6 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".neardevices.view.NearDevicesActivity"
-            android:label="@string/title_activity_near_devices"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,7 +27,6 @@
         </activity>
         <activity
             android:name=".clouddevices.view.CloudDevicesActivity"
-            android:label="@string/title_activity_cloud_devices"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <receiver

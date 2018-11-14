@@ -2,6 +2,7 @@ package com.mago.btscanner.neardevices.presenter;
 
 import android.content.Context;
 
+import com.mago.btscanner.db.AppDataBase;
 import com.mago.btscanner.db.entities.Device;
 import com.mago.btscanner.neardevices.interactor.NearDevicesInteractor;
 import com.mago.btscanner.neardevices.interactor.NearDevicesInteractorImpl;
@@ -51,12 +52,13 @@ public class NearDevicesPresenterImpl implements NearDevicesPresenter, NearDevic
 
     @Override
     public void saveStoredDevices() {
-        interactor.saveStoredDevices();
+        interactor.saveStoredDevices(this);
     }
 
     @Override
     public void onDestroy() {
         view = null;
+        AppDataBase.destroyInstance();
     }
 
     @Override

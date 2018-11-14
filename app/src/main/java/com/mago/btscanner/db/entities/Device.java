@@ -4,6 +4,7 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -15,16 +16,13 @@ import com.mago.btscanner.db.DevicesContract;
 @Entity(tableName = DevicesContract.DeviceData.TABLE_NAME,
         indices = @Index(value = DevicesContract.DeviceData.DEVICE_ADDRESS))
 public class Device {
-
-    private long id;
-
     @ColumnInfo(name = DevicesContract.DeviceData.DEVICE_NAME)
     private String name;
 
     @PrimaryKey
     @ColumnInfo(name = DevicesContract.DeviceData.DEVICE_ADDRESS)
-    @android.support.annotation.NonNull
-    private String address;
+    @NonNull
+    private String address = "";
 
     @ColumnInfo(name = DevicesContract.DeviceData.DEVICE_STRENGTH)
     private String strength;
@@ -40,14 +38,6 @@ public class Device {
         return new Gson().fromJson(json, Device.class);
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -56,11 +46,12 @@ public class Device {
         this.name = name == null ? "Unknown name" : name;
     }
 
+    @NonNull
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(@NonNull String address) {
         this.address = address;
     }
 

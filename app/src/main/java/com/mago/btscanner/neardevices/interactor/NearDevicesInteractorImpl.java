@@ -2,7 +2,6 @@ package com.mago.btscanner.neardevices.interactor;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -13,17 +12,6 @@ import com.mago.btscanner.neardevices.presenter.NearDevicesPresenter;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import retrofit2.HttpException;
 
 /**
  * Created by jorgemartinez on 13/11/18.
@@ -46,48 +34,6 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
     @Override
     public void saveDevice(Device device, OnEventListener listener) {
         sendWithVolley(device, listener, false);
-
-        /*
-        APIServiceRetrofit serviceRetrofit = RetrofitAPIUtils.getServiceRetrofit();
-        serviceRetrofit.addDevice(device.toJSON())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Device>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(Device device) {
-                        Log.i("NearInteractor", "onNext() "+device.toJSON());
-                        device.setCreatedAt(device.getCreatedAt());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("NearInteractor", "error "+e.getLocalizedMessage());
-                        try {
-                            Log.e("NearInteractor", "http " + ((HttpException) e).code());
-                            Log.e("NearInteractor", "http " + ((HttpException) e).message());
-                            Log.e("NearInteractor", "http " + ((HttpException) e).response().message());
-                            Log.e("NearInteractor", "http " + ((HttpException) e).response().body());
-                            Log.e("NearInteractor", "http " + ((HttpException) e).response().raw().toString());
-                            Log.e("NearInteractor", "http headers " + ((HttpException) e).response().raw().headers().toString());
-                        }catch (Exception e1){
-
-                        }
-                        e.printStackTrace();
-                        listener.onError(e.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-                */
     }
 
     @Override
@@ -112,13 +58,13 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
     }
 
     @Override
-    public void saveStoredDevices() {
+    public void saveStoredDevices(OnEventListener listener) {
         Device[] devices = dataBase.devicesDAO().allDevices();
-        if (devices.length <=0 )
+        if (devices.length <= 0 )
             return;
 
         for (Device device : devices){
-            Log.i("devicesSaved", device.toJSON());
+            sendWithVolley(device, listener, true);
         }
     }
 

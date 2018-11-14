@@ -6,7 +6,7 @@
     <!-- common strings -->
     <string name="activate">Activar</string>
 
-    <string name="activity.near_devices.saving_error">Error al guardar el dispositivo. %s</string>
+    <string name="activity.near_devices.saving_error">Error de conexión: %s. Se guardará después de forma automatica</string>
     <string name="activity.near_devices.saved_successful">¡%s guardado exitosamente!</string>
     <string name="activity.near_devices.device_already_saved">%s guardado el %s</string>
     <string name="activity.near_devices.menu.action_refresh_list">Refrescar dispositivos</string>

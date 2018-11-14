@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion compileSdkV
     defaultConfig {
-        applicationId "com.mago.bluetooth"
+        applicationId "com.mago.btscanner"
         minSdkVersion minSdkV
         targetSdkVersion targetSdkV
         versionCode codeV
