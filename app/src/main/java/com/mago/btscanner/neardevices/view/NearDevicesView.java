@@ -9,7 +9,7 @@ public interface NearDevicesView {
     void showProgressBar();
     void hideProgressBar();
     void showBluetoothErrMsg();
-    void showSavedSuccessfulMsg(Device device, boolean didExists);
+    void showSavedSuccessfulMsg(Device device);
     void showSavingErrorMsg(String errMsg);
 
     void enableBluetooth();

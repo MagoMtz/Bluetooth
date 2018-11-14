@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -49,12 +50,12 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
         view = DataBindingUtil.setContentView(this, R.layout.activity_near_devices);
         setSupportActionBar(view.toolbar);
 
-        presenter = new NearDevicesPresenterImpl(this);
+        presenter = new NearDevicesPresenterImpl(this, this);
 
         initReceiver();
         setupRecyclerView();
-
         scanForNearDevices();
+
     }
 
     @Override
@@ -66,7 +67,6 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     @Override
     protected void onResume() {
         super.onResume();
-        scanForNearDevices();
     }
 
     @Override
@@ -97,6 +97,8 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
             case Flags.IntentCodes.REQUEST_ACCESS_COARSE_LOCATION:
                 if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     scanForNearDevices();
+                if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_DENIED)
+                    showGrantPermissionMsg();
 
                 break;
         }
@@ -165,14 +167,9 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     }
 
     @Override
-    public void showSavedSuccessfulMsg(Device device, boolean didExists) {
+    public void showSavedSuccessfulMsg(Device device) {
         String msg;
-        if (didExists) {
-            String[] date = device.getCreatedAt().split("T");
-            msg = String.format(getString(R.string.activity_near_devices_device_already_saved), device.getName(), date[0]);
-        } else {
-            msg = String.format(getString(R.string.activity_near_devices_saved_successful), device.getName());
-        }
+        msg = String.format(getString(R.string.activity_near_devices_saved_successful), device.getName());
         Snackbar.make(view.getRoot(), msg, Snackbar.LENGTH_LONG).show();
     }
 
@@ -197,6 +194,12 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     private void showEnableBTMsg(){
         Snackbar.make(view.getRoot(), getString(R.string.activity_near_devices_bt_not_active_msg), Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.activate, (v) -> enableBluetooth())
+                .show();
+    }
+
+    private void showGrantPermissionMsg() {
+        Snackbar.make(view.getRoot(), getString(R.string.activity_near_devices_permission_not_granted), Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.activate, (v) -> scanForNearDevices())
                 .show();
     }
 

@@ -1,18 +1,25 @@
 package com.mago.btscanner.neardevices.interactor;
 
 import android.bluetooth.BluetoothAdapter;
-import android.util.Log;
+import android.content.Context;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.mago.btscanner.db.entities.Device;
-import com.mago.btscanner.lib.APIServiceRetrofit;
-import com.mago.btscanner.lib.RetrofitAPIUtils;
 import com.mago.btscanner.neardevices.presenter.NearDevicesPresenter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import retrofit2.HttpException;
 
@@ -22,22 +29,23 @@ import retrofit2.HttpException;
 public class NearDevicesInteractorImpl implements NearDevicesInteractor {
     private NearDevicesPresenter presenter;
     private BluetoothAdapter bluetoothAdapter;
+    private Context context;
 
-    public NearDevicesInteractorImpl(NearDevicesPresenter presenter) {
+    private static final String ADD_URL = "https://grin-bluetooth-api.herokuapp.com/add";
+
+    public NearDevicesInteractorImpl(NearDevicesPresenter presenter, Context context) {
         this.presenter = presenter;
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        this.context = context;
     }
 
     @Override
     public void saveDevice(Device device, OnEventListener listener) {
-        //device.setCreatedAt("2018-11-10T19:33:30.205Z");
-        //listener.onSuccess(device, true);
+        sendWithVolley(device, listener);
 
-        //device.setAddress("6C:96:CF:DF:51:F8");
-        Log.i("Interactor", "saveDevice() "+device.toJSON());
-
+        /*
         APIServiceRetrofit serviceRetrofit = RetrofitAPIUtils.getServiceRetrofit();
-        serviceRetrofit.addDevice()
+        serviceRetrofit.addDevice(device.toJSON())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Device>() {
@@ -55,11 +63,16 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
                     @Override
                     public void onError(Throwable e) {
                         Log.e("NearInteractor", "error "+e.getLocalizedMessage());
-                        Log.e("NearInteractor", "http "+((HttpException) e).code());
-                        Log.e("NearInteractor", "http "+((HttpException) e).message());
-                        Log.e("NearInteractor", "http "+((HttpException) e).response().message());
-                        Log.e("NearInteractor", "http "+((HttpException) e).response().body());
-                        Log.e("NearInteractor", "http "+((HttpException) e).response().raw().toString());
+                        try {
+                            Log.e("NearInteractor", "http " + ((HttpException) e).code());
+                            Log.e("NearInteractor", "http " + ((HttpException) e).message());
+                            Log.e("NearInteractor", "http " + ((HttpException) e).response().message());
+                            Log.e("NearInteractor", "http " + ((HttpException) e).response().body());
+                            Log.e("NearInteractor", "http " + ((HttpException) e).response().raw().toString());
+                            Log.e("NearInteractor", "http headers " + ((HttpException) e).response().raw().headers().toString());
+                        }catch (Exception e1){
+
+                        }
                         e.printStackTrace();
                         listener.onError(e.getLocalizedMessage());
                     }
@@ -69,6 +82,8 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
 
                     }
                 });
+
+                */
     }
 
     @Override
@@ -98,6 +113,42 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
             return false;
         }
         return true;
+    }
+
+    private void sendWithVolley(Device device, OnEventListener listener){
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        JsonObjectRequest request = new JsonObjectRequest(
+                com.android.volley.Request.Method.POST,
+                ADD_URL,
+                null,
+                (response) -> listener.onSuccess(new Device().fromJSON(response.toString())),
+                (volleyError) -> {
+                    if (volleyError.networkResponse == null){
+                        listener.onError("Timeout");
+                        return;
+                    }
+                    listener.onError("Server error: "+volleyError.networkResponse.statusCode);
+                }
+        )
+        {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+
+            @Override
+            public byte[] getBody() {
+                try{
+                    return device.toJSON().getBytes("utf-8");
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                return super.getBody();
+            }
+        };
+        requestQueue.add(request);
     }
 
 }

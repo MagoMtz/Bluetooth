@@ -1,5 +1,7 @@
 package com.mago.btscanner.neardevices.presenter;
 
+import android.content.Context;
+
 import com.mago.btscanner.db.entities.Device;
 import com.mago.btscanner.neardevices.interactor.NearDevicesInteractor;
 import com.mago.btscanner.neardevices.interactor.NearDevicesInteractorImpl;
@@ -12,9 +14,9 @@ public class NearDevicesPresenterImpl implements NearDevicesPresenter, NearDevic
     private NearDevicesView view;
     private NearDevicesInteractor interactor;
 
-    public NearDevicesPresenterImpl(NearDevicesView view) {
+    public NearDevicesPresenterImpl(NearDevicesView view, Context context) {
         this.view = view;
-        this.interactor = new NearDevicesInteractorImpl(this);
+        this.interactor = new NearDevicesInteractorImpl(this, context);
     }
 
     @Override
@@ -59,9 +61,9 @@ public class NearDevicesPresenterImpl implements NearDevicesPresenter, NearDevic
     }
 
     @Override
-    public void onSuccess(Device device, boolean didExists) {
+    public void onSuccess(Device device) {
         view.hideProgressBar();
-        view.showSavedSuccessfulMsg(device, didExists);
+        view.showSavedSuccessfulMsg(device);
     }
 
 }

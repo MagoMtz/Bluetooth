@@ -17,6 +17,10 @@ public class Device {
         return new Gson().toJson(this);
     }
 
+    public Device fromJSON(String json) {
+        return new Gson().fromJson(json, Device.class);
+    }
+
     public String getName() {
         return name;
     }

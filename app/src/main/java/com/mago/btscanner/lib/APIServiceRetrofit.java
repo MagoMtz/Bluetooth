@@ -5,7 +5,9 @@ import com.mago.btscanner.db.entities.Device;
 import java.util.List;
 
 import io.reactivex.Observable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -16,5 +18,6 @@ public interface APIServiceRetrofit {
     Observable<List<Device>> getDevices();
 
     @POST("add")
-    Observable<Device> addDevice();
+    @Headers("Content-Type: application/json")
+    Observable<Device> addDevice(@Body String deviceJSON);
 }

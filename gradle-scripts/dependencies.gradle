@@ -17,7 +17,9 @@ ext {
     retrofitV = '2.4.0'
     rxAndroidV = '2.1.0'
     rxJavaV = '2.1.3'
-
+    logginInterceptorV = '3.8.0'
+    volleyV = '1.1.1'
+    roomV = '1.1.1'
 
     //Packages
     supportPackage = 'com.android.support'
@@ -29,6 +31,9 @@ ext {
     gsonPackage = 'com.google.code.gson'
     retrofitPackage = 'com.squareup.retrofit2'
     rxJavaPackage = 'io.reactivex.rxjava2'
+    okHttp3Package = 'com.squareup.okhttp3'
+    volleyPackage = 'com.android.volley'
+    roomPackage = 'android.arch.persistence.room'
 
     //App dependencies
     supportDependencies = [
@@ -43,13 +48,21 @@ ext {
             retrofitGSONConverter : buildDependency(retrofitPackage, 'converter-gson', retrofitV),
             retrofitrxjava : buildDependency(retrofitPackage, 'adapter-rxjava2', retrofitV),
             rxAndroid : buildDependency(rxJavaPackage, 'rxandroid', rxAndroidV),
-            rxJava : buildDependency(rxJavaPackage, 'rxjava', rxJavaV)
+            rxJava : buildDependency(rxJavaPackage, 'rxjava', rxJavaV),
+            logginInterceptor : buildDependency(okHttp3Package, 'logging-interceptor', logginInterceptorV),
+            volley : buildDependency(volleyPackage, 'volley', volleyV)
     ]
 
     testingDependencies = [
             junit : buildDependency(junitPackage, 'junit', junitV),
             testRunner : buildDependency(testPackage, 'runner', testRunnerV),
             espresso : buildDependency(espressoPackage, 'espresso-core', testEspressoV),
+    ]
+
+    roomDependencies = [
+            runtime : buildDependency(roomPackage, 'runtime', roomV),
+            roomRx : buildDependency(roomPackage, 'rxjava2', roomV),
+            compiler : buildDependency(roomPackage, 'compiler', roomV)
     ]
 }
 

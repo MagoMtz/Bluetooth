@@ -15,6 +15,7 @@
     <string name="activity.near_devices.no_devices_found">No hay dispositivos cercanos</string>
     <string name="activity.near_devices.bt_unavailable">Este dispositivo no cuenta con Bluetooth</string>
     <string name="activity.near_devices.bt_not_active_msg">Debes activar tu bluetooth para ver los dispositivos cercanos</string>
+    <string name="activity.near_devices.permission_not_granted">Para poder ver los dispositivos cercanos debes de habilitar el permiso de localización</string>
 
     <string name="activity.cloud_devices.no_devices_found">No hay dispositivos guardados en servidor</string>
     <string name="activity.cloud_devices.menu.action_order_devices">Ordenar dispositivos</string>
