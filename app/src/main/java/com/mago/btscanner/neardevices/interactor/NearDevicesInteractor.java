@@ -10,6 +10,7 @@ public interface NearDevicesInteractor {
 
     void getNearDevices();
     void cancelDiscovery();
+    void saveStoredDevices();
 
     interface OnEventListener {
         void onError(String errMsg);

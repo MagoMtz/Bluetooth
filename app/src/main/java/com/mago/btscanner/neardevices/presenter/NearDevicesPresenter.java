@@ -12,6 +12,7 @@ public interface NearDevicesPresenter {
     void bluetoothError();
     void enableBluetooth();
     void cancelDiscovery();
+    void saveStoredDevices();
 
     void onDestroy();
 }

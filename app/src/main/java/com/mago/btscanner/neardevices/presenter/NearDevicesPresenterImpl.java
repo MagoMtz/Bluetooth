@@ -50,6 +50,11 @@ public class NearDevicesPresenterImpl implements NearDevicesPresenter, NearDevic
     }
 
     @Override
+    public void saveStoredDevices() {
+        interactor.saveStoredDevices();
+    }
+
+    @Override
     public void onDestroy() {
         view = null;
     }

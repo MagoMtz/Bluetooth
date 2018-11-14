@@ -11,7 +11,7 @@
     <string name="activity.near_devices.device_already_saved">%s guardado el %s</string>
     <string name="activity.near_devices.menu.action_refresh_list">Refrescar dispositivos</string>
     <string name="activity.near_devices.menu.action_saved_devices">Ver dispositivos guardados</string>
-    <string name="activity.near_devices.adapter.strength">%d dBm</string>
+    <string name="activity.near_devices.adapter.strength">%d db</string>
     <string name="activity.near_devices.no_devices_found">No hay dispositivos cercanos</string>
     <string name="activity.near_devices.bt_unavailable">Este dispositivo no cuenta con Bluetooth</string>
     <string name="activity.near_devices.bt_not_active_msg">Debes activar tu bluetooth para ver los dispositivos cercanos</string>

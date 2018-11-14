@@ -26,7 +26,7 @@ public class BTScannerBroadcastReceiver extends BroadcastReceiver {
             Device dev = new Device();
             dev.setAddress(device.getAddress());
             dev.setName(device.getName());
-            dev.setStrength(strength +"dBm");
+            dev.setStrength(strength +"db");
             deviceFoundListener.addDeviceToList(dev);
         }
     }

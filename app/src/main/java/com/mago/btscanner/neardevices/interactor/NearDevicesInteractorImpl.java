@@ -2,10 +2,12 @@ package com.mago.btscanner.neardevices.interactor;
 
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.mago.btscanner.db.AppDataBase;
 import com.mago.btscanner.db.entities.Device;
 import com.mago.btscanner.neardevices.presenter.NearDevicesPresenter;
 
@@ -30,18 +32,20 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
     private NearDevicesPresenter presenter;
     private BluetoothAdapter bluetoothAdapter;
     private Context context;
+    private AppDataBase dataBase;
 
     private static final String ADD_URL = "https://grin-bluetooth-api.herokuapp.com/add";
 
     public NearDevicesInteractorImpl(NearDevicesPresenter presenter, Context context) {
         this.presenter = presenter;
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         this.context = context;
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        dataBase = AppDataBase.getINSTANCE(context);
     }
 
     @Override
     public void saveDevice(Device device, OnEventListener listener) {
-        sendWithVolley(device, listener);
+        sendWithVolley(device, listener, false);
 
         /*
         APIServiceRetrofit serviceRetrofit = RetrofitAPIUtils.getServiceRetrofit();
@@ -107,6 +111,17 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
             bluetoothAdapter.cancelDiscovery();
     }
 
+    @Override
+    public void saveStoredDevices() {
+        Device[] devices = dataBase.devicesDAO().allDevices();
+        if (devices.length <=0 )
+            return;
+
+        for (Device device : devices){
+            Log.i("devicesSaved", device.toJSON());
+        }
+    }
+
     private boolean isBTEnabled(){
         if (!bluetoothAdapter.isEnabled()){
             presenter.enableBluetooth();
@@ -115,14 +130,27 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
         return true;
     }
 
-    private void sendWithVolley(Device device, OnEventListener listener){
+    private void sendWithVolley(Device device, OnEventListener listener, boolean isStoredDevice){
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         JsonObjectRequest request = new JsonObjectRequest(
                 com.android.volley.Request.Method.POST,
                 ADD_URL,
                 null,
-                (response) -> listener.onSuccess(new Device().fromJSON(response.toString())),
+                (response) -> {
+                    if (isStoredDevice){
+                        dataBase.devicesDAO().deleteDevice(device);
+                        return;
+                    }
+
+                    listener.onSuccess(new Device().fromJSON(response.toString()));
+                },
                 (volleyError) -> {
+                    if (isStoredDevice){
+                        return;
+                    }
+
+                    dataBase.devicesDAO().insertDevice(device);
+
                     if (volleyError.networkResponse == null){
                         listener.onError("Timeout");
                         return;
