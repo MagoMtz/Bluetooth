@@ -81,16 +81,16 @@ public class DevicesAdapter extends RecyclerView.Adapter<DevicesAdapter.ViewHold
 
         void setIntensityIcon(int strength) {
             if ((strength <= 0) && (strength >= -25)) {
-                viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_poor);
+                viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_perfect);
             } else
             if ((strength <= -26) && (strength >= -50)) {
-                viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_ok);
-            } else
-            if ((strength <= -51) && (strength >= -75)) {
                 viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_great);
             } else
+            if ((strength <= -51) && (strength >= -75)) {
+                viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_ok);
+            } else
             if ((strength <= -76) && (strength >= -100)){
-                viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_perfect);
+                viewBinding.ivIntensity.setImageResource(R.drawable.ic_signal_poor);
             }
         }
 
