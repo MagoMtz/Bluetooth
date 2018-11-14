@@ -7,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
  * Created by jorgemartinez on 12/11/18.
  */
 public class Device {
-    private long id;
     private String name;
     private String address;
     private String strength;
@@ -16,14 +15,6 @@ public class Device {
 
     public String toJSON() {
         return new Gson().toJson(this);
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

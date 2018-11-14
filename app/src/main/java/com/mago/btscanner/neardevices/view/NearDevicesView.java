@@ -7,7 +7,7 @@ public interface NearDevicesView {
     void showProgressBar();
     void hideProgressBar();
     void showBluetoothErrMsg();
-    void showSavedSuccessfulMsg();
+    void showSavedSuccessfulMsg(String deviceName);
     void showSavingErrorMsg(String errMsg);
 
     void enableBluetooth();

@@ -1,6 +1,7 @@
 package com.mago.btscanner.neardevices.interactor;
 
 import android.bluetooth.BluetoothAdapter;
+import android.util.Log;
 
 import com.mago.btscanner.db.entities.Device;
 import com.mago.btscanner.neardevices.presenter.NearDevicesPresenter;
@@ -19,7 +20,8 @@ public class NearDevicesInteractorImpl implements NearDevicesInteractor {
 
     @Override
     public void saveDevice(Device device, OnEventListener listener) {
-
+        Log.i("Interactor", device.toJSON());
+        listener.onSuccess(device.getName());
     }
 
     @Override

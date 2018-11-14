@@ -138,6 +138,7 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
 
     @Override
     public void onItemClick(Device device) {
+        presenter.cancelDiscovery();
         presenter.saveDevice(device);
     }
 
@@ -161,8 +162,9 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
     }
 
     @Override
-    public void showSavedSuccessfulMsg() {
-        Snackbar.make(view.getRoot(), getString(R.string.activity_near_devices_saved_successful), Snackbar.LENGTH_SHORT).show();
+    public void showSavedSuccessfulMsg(String deviceName) {
+        String msg = String.format(getString(R.string.activity_near_devices_saved_successful), deviceName);
+        Snackbar.make(view.getRoot(), msg, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
