@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.mago.btscanner.R;
 import com.mago.btscanner.databinding.AdapterDevicesBinding;
 
-
 import com.mago.btscanner.db.entities.Device;
 
 import java.util.ArrayList;

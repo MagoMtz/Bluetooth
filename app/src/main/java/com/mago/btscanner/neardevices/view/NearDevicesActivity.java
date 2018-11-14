@@ -1,14 +1,19 @@
 package com.mago.btscanner.neardevices.view;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
@@ -30,7 +35,6 @@ import com.mago.btscanner.neardevices.presenter.NearDevicesPresenterImpl;
 
 import java.util.ArrayList;
 
-
 public class NearDevicesActivity extends AppCompatActivity implements OnItemClickListener, NearDevicesView, DeviceFoundListener {
     private ActivityNearDevicesBinding view;
     private ArrayList<Device> deviceArrayList;
@@ -48,25 +52,51 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
 
         initReceiver();
         setupRecyclerView();
+
+        scanForNearDevices();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.cancelDiscovery();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        scanForNearDevices();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        presenter.onDestroy();
         unregisterReceiver(receiver);
+        presenter.cancelDiscovery();
+        presenter.onDestroy();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode){
             case Flags.IntentCodes.REQUEST_ENABLE_BT:
-                if (resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK)
                     scanForNearDevices();
-                }
-                if (resultCode == RESULT_CANCELED) {
+
+                if (resultCode == RESULT_CANCELED)
                     showEnableBTMsg();
-                }
+
+                break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Flags.IntentCodes.REQUEST_ACCESS_COARSE_LOCATION:
+                if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    scanForNearDevices();
+
                 break;
         }
     }
@@ -163,7 +193,12 @@ public class NearDevicesActivity extends AppCompatActivity implements OnItemClic
         deviceArrayList.clear();
         devicesAdapter.notifyDataSetChanged();
 
-        presenter.getNearDevices();
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, Flags.IntentCodes.REQUEST_ACCESS_COARSE_LOCATION);
+        }else {
+            presenter.getNearDevices();
+        }
     }
 
 

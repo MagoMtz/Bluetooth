@@ -1,10 +1,6 @@
 package com.mago.btscanner.neardevices.presenter;
 
-import android.content.BroadcastReceiver;
-
 import com.mago.btscanner.db.entities.Device;
-
-import java.util.ArrayList;
 
 /**
  * Created by jorgemartinez on 13/11/18.

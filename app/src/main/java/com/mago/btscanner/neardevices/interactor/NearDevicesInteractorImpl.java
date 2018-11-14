@@ -1,12 +1,9 @@
 package com.mago.btscanner.neardevices.interactor;
 
 import android.bluetooth.BluetoothAdapter;
-import android.content.Context;
 
 import com.mago.btscanner.db.entities.Device;
 import com.mago.btscanner.neardevices.presenter.NearDevicesPresenter;
-
-import java.util.List;
 
 /**
  * Created by jorgemartinez on 13/11/18.
