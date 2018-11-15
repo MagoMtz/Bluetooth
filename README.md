@@ -18,7 +18,7 @@ Botón | Acción
 5. Se crearon: vista, interactuadores, presentadores de ambas actividades.
 6. Se definió la lógica de negocio de la segunda actividad.
 7. Se creó la interfaz para retrofit, su cliente y la instancia única de acceso.
-8. Se consume el WS [https://grin-bluetooth-api.herokuapp.com/devices/](devices) para mostrar los dispositivos guardados en el servidor.
+8. Se consume el WS [Devices](https://grin-bluetooth-api.herokuapp.com/devices/) para mostrar los dispositivos guardados en el servidor.
 9. Se implementa la lógica para poder ordenar la lista de a cuerdo a la fecha de creación.
 10. Se desarrolla la lógica de negocio para detectar dispositivos bluetooth cercanos.
 11. Se implementan las clases para utilizar el Bluetooth Adapter.
